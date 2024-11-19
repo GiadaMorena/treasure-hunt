@@ -21,7 +21,7 @@ const QUESTIONS = [
 
 let currentStep = 0;
 let score = 0;
-let timeLeft = 86400; // 24 ore in secondi (86400)
+let timeLeft = 0; // Il timer parte da 0 (00:00:00)
 let timer;
 
 document.getElementById('start-btn').addEventListener('click', startGame);
@@ -44,13 +44,13 @@ function showInfo() {
 
 function startTimer() {
   timer = setInterval(() => {
-    timeLeft--;
+    timeLeft++;
     const hours = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
     const minutes = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
     const seconds = String(timeLeft % 60).padStart(2, '0');
     document.getElementById('status-bar').innerText = `Tempo: ${hours}:${minutes}:${seconds}`;
 
-    if (timeLeft <= 0) {
+    if (timeLeft >= 86400) { // 24 ore in secondi
       clearInterval(timer);
       endGame();
     }
@@ -76,42 +76,39 @@ function handleAnswer(selectedIndex) {
   const feedback = document.getElementById('answer-feedback');
   if (selectedIndex === question.correct) {
     score += 100;
-    feedback.innerText = 'Corretto!';
-    feedback.className = 'correct';
+    feedback.innerText = "Risposta corretta!";
+    feedback.className = "correct";
   } else {
-    feedback.innerText = 'Errato, riprova!';
-    feedback.className = 'incorrect';
+    feedback.innerText = "Risposta errata!";
+    feedback.className = "incorrect";
   }
 
   if (currentStep < QUESTIONS.length - 1) {
-    setTimeout(() => {
-      feedback.innerText = '';
-      currentStep++;
-      showQuestion();
-    }, 1000);
+    currentStep++;
+    setTimeout(showQuestion, 1000);
   } else {
     setTimeout(endGame, 1000);
   }
 }
 
 function toggleHint() {
-  const currentQuestion = QUESTIONS[currentStep];
   const hint = document.getElementById('hint');
+  const question = QUESTIONS[currentStep];
   hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
-  hint.innerText = currentQuestion.hint;
+  hint.innerText = question.hint;
 }
 
 function endGame() {
   clearInterval(timer);
   document.getElementById('game-content').style.display = 'none';
   document.getElementById('game-end').style.display = 'block';
-  document.getElementById('final-score').innerText = `Il tuo punteggio: ${score} punti`;
+  document.getElementById('final-score').innerText = `Il tuo punteggio finale è: ${score}`;
 }
 
 function resetGame() {
   currentStep = 0;
   score = 0;
-  timeLeft = 86400;
+  timeLeft = 0;
   document.getElementById('game-end').style.display = 'none';
   document.getElementById('game-info').style.display = 'block';
   document.getElementById('start-btn').style.display = 'inline-block';

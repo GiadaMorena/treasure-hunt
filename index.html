@@ -7,20 +7,21 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- Menù di navigazione -->
+    <!-- Menu di navigazione -->
     <nav>
       <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#game">Gioca</a></li>
-        <li><a href="#about">Informazioni</a></li>
+        <li><a href="#" id="start-nav">Inizia Gioco</a></li>
+        <li><a href="#" id="info-nav">Informazioni</a></li>
       </ul>
     </nav>
 
-    <!-- Contenuto principale -->
+    <!-- Contenuto del gioco -->
     <div class="game-container">
-      <h2>Caccia al Tesoro dei Colli Piacentini</h2>
-      <p id="game-info">Scopri la bellezza dei Colli Piacentini attraverso un divertente quiz!</p>
-      <button id="start-btn">Inizia l'Avventura</button>
+      <div id="game-info">
+        <h2>Caccia al Tesoro dei Colli Piacentini</h2>
+        <p>Scopri la bellezza dei Colli Piacentini attraverso un divertente quiz!</p>
+        <button id="start-btn">Inizia l'Avventura</button>
+      </div>
 
       <div id="game-content" style="display: none;">
         <div id="status-bar"></div>
@@ -28,6 +29,7 @@
         <div id="options"></div>
         <button id="hint-btn">Mostra Suggerimento</button>
         <p id="hint" style="display: none;"></p>
+        <p id="answer-feedback" style="font-weight: bold; margin-top: 10px;"></p>
       </div>
 
       <div id="game-end" style="display: none;">

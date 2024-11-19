@@ -1,20 +1,55 @@
+/* Generale */
 body {
   font-family: Arial, sans-serif;
   background: #f0f4f8;
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
 }
 
+/* Menù di navigazione */
+nav {
+  width: 100%;
+  background-color: #333;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 10px;
+}
+
+nav ul li a:hover {
+  background-color: #575757;
+  border-radius: 5px;
+}
+
+/* Contenuto del gioco */
 .game-container {
   background: white;
   padding: 2rem;
   border-radius: 8px;
   text-align: center;
   width: 300px;
+  margin-top: 70px;
 }
 
 button {
@@ -50,4 +85,13 @@ button:hover {
 
 #hint-btn:hover {
   background-color: #e69500;
+}
+
+/* Gestione della visualizzazione */
+#game-info {
+  text-align: center;
+}
+
+#game-content, #game-end {
+  display: none;
 }

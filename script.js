@@ -1,27 +1,27 @@
 const QUESTIONS = [
   {
-    text: "Qual è l'altezza massima dei Colli Piacentini?",
-    options: ["800 metri", "1200 metri", "600 metri", "400 metri"],
+    text: "What is the highest point of the Piacenza Hills?",
+    options: ["800 meters", "1200 meters", "600 meters", "400 meters"],
     correct: 1,
-    hint: "Si trova nella zona più elevata del territorio piacentino"
+    hint: "It is located in the highest area of the Piacenza region."
   },
   {
-    text: "Qual è il fiume principale che attraversa i Colli Piacentini?",
+    text: "Which river runs through the Piacenza Hills?",
     options: ["Po", "Trebbia", "Nure", "Tidone"],
     correct: 1,
-    hint: "Questo fiume è famoso per le sue acque cristalline"
+    hint: "This river is known for its crystal-clear waters."
   },
   {
-    text: "Quali prodotti tipici sono più diffusi nei Colli Piacentini?",
-    options: ["Parmigiano", "Salumi", "Vino", "Tartufi"],
+    text: "What local products are most common in the Piacenza Hills?",
+    options: ["Parmigiano", "Cured meats", "Wine", "Truffles"],
     correct: 2,
-    hint: "Questa zona è rinomata per la produzione di vini pregiati"
+    hint: "This area is famous for producing high-quality wines."
   },
 ];
 
 let currentStep = 0;
 let score = 0;
-let timeLeft = 0; // Il timer parte da 0 (00:00:00)
+let timeLeft = 0; // Timer starts at 0
 let timer;
 
 document.getElementById('start-btn').addEventListener('click', startGame);
@@ -39,7 +39,7 @@ function startGame() {
 }
 
 function showInfo() {
-  alert("Caccia al Tesoro dei Colli Piacentini - Un gioco per scoprire i tesori locali!");
+  alert("Treasure Hunt of the Piacenza Hills - A game to discover local treasures!");
 }
 
 function startTimer() {
@@ -48,9 +48,9 @@ function startTimer() {
     const hours = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
     const minutes = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
     const seconds = String(timeLeft % 60).padStart(2, '0');
-    document.getElementById('status-bar').innerText = `Tempo: ${hours}:${minutes}:${seconds}`;
+    document.getElementById('status-bar').innerText = `Time: ${hours}:${minutes}:${seconds}`;
 
-    if (timeLeft >= 86400) { // 24 ore in secondi
+    if (timeLeft >= 86400) { // Timer does not exceed 24 hours
       clearInterval(timer);
       endGame();
     }
@@ -76,33 +76,36 @@ function handleAnswer(selectedIndex) {
   const feedback = document.getElementById('answer-feedback');
   if (selectedIndex === question.correct) {
     score += 100;
-    feedback.innerText = "Risposta corretta!";
-    feedback.className = "correct";
+    feedback.innerText = 'Correct!';
+    feedback.className = 'correct';
   } else {
-    feedback.innerText = "Risposta errata!";
-    feedback.className = "incorrect";
+    feedback.innerText = 'Incorrect';
+    feedback.className = 'incorrect';
   }
 
   if (currentStep < QUESTIONS.length - 1) {
-    currentStep++;
-    setTimeout(showQuestion, 1000);
+    setTimeout(() => {
+      feedback.innerText = '';
+      currentStep++;
+      showQuestion();
+    }, 1000);
   } else {
     setTimeout(endGame, 1000);
   }
 }
 
 function toggleHint() {
+  const currentQuestion = QUESTIONS[currentStep];
   const hint = document.getElementById('hint');
-  const question = QUESTIONS[currentStep];
   hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
-  hint.innerText = question.hint;
+  hint.innerText = currentQuestion.hint;
 }
 
 function endGame() {
   clearInterval(timer);
   document.getElementById('game-content').style.display = 'none';
   document.getElementById('game-end').style.display = 'block';
-  document.getElementById('final-score').innerText = `Il tuo punteggio finale è: ${score}`;
+  document.getElementById('final-score').innerText = `Your final score: ${score} points`;
 }
 
 function resetGame() {

@@ -21,12 +21,16 @@ const QUESTIONS = [
 
 let currentStep = 0;
 let score = 0;
-let timeLeft = 300; // 5 minuti per il gioco
+let timeElapsed = 0; // Timer in secondi
 let timer;
+let gameStarted = false;
 
 document.getElementById('start-btn').addEventListener('click', startGame);
+document.getElementById('hint-btn').addEventListener('click', toggleHint);
+document.getElementById('reset-btn').addEventListener('click', resetGame);
 
 function startGame() {
+  gameStarted = true;
   document.getElementById('game-info').style.display = 'none';
   document.getElementById('start-btn').style.display = 'none';
   document.getElementById('game-content').style.display = 'block';
@@ -36,13 +40,20 @@ function startGame() {
 
 function startTimer() {
   timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById('status-bar').innerText = `Tempo: ${Math.floor(timeLeft / 60)}:${timeLeft % 60}`;
-    if (timeLeft <= 0) {
+    timeElapsed++;
+    updateTimerDisplay();
+    if (timeElapsed >= 86400) { // 24 ore in secondi
       clearInterval(timer);
       endGame();
     }
   }, 1000);
+}
+
+function updateTimerDisplay() {
+  const hours = Math.floor(timeElapsed / 3600);
+  const minutes = Math.floor((timeElapsed % 3600) / 60);
+  const seconds = timeElapsed % 60;
+  document.getElementById('status-bar').innerText = `Tempo: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 function showQuestion() {
@@ -80,11 +91,20 @@ function endGame() {
   document.getElementById('final-score').innerText = `Il tuo punteggio: ${score} punti`;
 }
 
-document.getElementById('reset-btn').addEventListener('click', () => {
+function resetGame() {
   currentStep = 0;
   score = 0;
-  timeLeft = 300;
+  timeElapsed = 0;
+  gameStarted = false;
   document.getElementById('game-end').style.display = 'none';
   document.getElementById('game-info').style.display = 'block';
   document.getElementById('start-btn').style.display = 'block';
-});
+  clearInterval(timer);
+}
+
+function toggleHint() {
+  const hintText = QUESTIONS[currentStep].hint;
+  const hintElement = document.getElementById('hint');
+  hintElement.style.display = hintElement.style.display === 'none' ? 'block' : 'none';
+  hintElement.innerText = hintText;
+}

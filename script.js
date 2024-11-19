@@ -21,16 +21,16 @@ const QUESTIONS = [
 
 let currentStep = 0;
 let score = 0;
-let timeElapsed = 0; // Timer in secondi
+let timeLeft = 86400; // 24 ore in secondi (86400)
 let timer;
-let gameStarted = false;
 
 document.getElementById('start-btn').addEventListener('click', startGame);
+document.getElementById('start-nav').addEventListener('click', startGame);
+document.getElementById('info-nav').addEventListener('click', showInfo);
 document.getElementById('hint-btn').addEventListener('click', toggleHint);
 document.getElementById('reset-btn').addEventListener('click', resetGame);
 
 function startGame() {
-  gameStarted = true;
   document.getElementById('game-info').style.display = 'none';
   document.getElementById('start-btn').style.display = 'none';
   document.getElementById('game-content').style.display = 'block';
@@ -38,22 +38,23 @@ function startGame() {
   showQuestion();
 }
 
+function showInfo() {
+  alert("Caccia al Tesoro dei Colli Piacentini - Un gioco per scoprire i tesori locali!");
+}
+
 function startTimer() {
   timer = setInterval(() => {
-    timeElapsed++;
-    updateTimerDisplay();
-    if (timeElapsed >= 86400) { // 24 ore in secondi
+    timeLeft--;
+    const hours = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
+    const minutes = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
+    const seconds = String(timeLeft % 60).padStart(2, '0');
+    document.getElementById('status-bar').innerText = `Tempo: ${hours}:${minutes}:${seconds}`;
+
+    if (timeLeft <= 0) {
       clearInterval(timer);
       endGame();
     }
   }, 1000);
-}
-
-function updateTimerDisplay() {
-  const hours = Math.floor(timeElapsed / 3600);
-  const minutes = Math.floor((timeElapsed % 3600) / 60);
-  const seconds = timeElapsed % 60;
-  document.getElementById('status-bar').innerText = `Tempo: ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 function showQuestion() {
@@ -72,16 +73,32 @@ function showQuestion() {
 
 function handleAnswer(selectedIndex) {
   const question = QUESTIONS[currentStep];
+  const feedback = document.getElementById('answer-feedback');
   if (selectedIndex === question.correct) {
     score += 100;
+    feedback.innerText = 'Corretto!';
+    feedback.className = 'correct';
+  } else {
+    feedback.innerText = 'Errato, riprova!';
+    feedback.className = 'incorrect';
   }
 
   if (currentStep < QUESTIONS.length - 1) {
-    currentStep++;
-    showQuestion();
+    setTimeout(() => {
+      feedback.innerText = '';
+      currentStep++;
+      showQuestion();
+    }, 1000);
   } else {
-    endGame();
+    setTimeout(endGame, 1000);
   }
+}
+
+function toggleHint() {
+  const currentQuestion = QUESTIONS[currentStep];
+  const hint = document.getElementById('hint');
+  hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
+  hint.innerText = currentQuestion.hint;
 }
 
 function endGame() {
@@ -94,17 +111,8 @@ function endGame() {
 function resetGame() {
   currentStep = 0;
   score = 0;
-  timeElapsed = 0;
-  gameStarted = false;
+  timeLeft = 86400;
   document.getElementById('game-end').style.display = 'none';
   document.getElementById('game-info').style.display = 'block';
-  document.getElementById('start-btn').style.display = 'block';
-  clearInterval(timer);
-}
-
-function toggleHint() {
-  const hintText = QUESTIONS[currentStep].hint;
-  const hintElement = document.getElementById('hint');
-  hintElement.style.display = hintElement.style.display === 'none' ? 'block' : 'none';
-  hintElement.innerText = hintText;
+  document.getElementById('start-btn').style.display = 'inline-block';
 }

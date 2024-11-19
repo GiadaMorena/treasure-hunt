@@ -1,44 +1,41 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Caccia al Tesoro</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Treasure Hunt of the Piacenza Hills</title>
   </head>
   <body>
-    <!-- Menu di navigazione -->
-    <nav>
-      <ul>
-        <li><a href="#" id="start-nav">Inizia Gioco</a></li>
-        <li><a href="#" id="info-nav">Informazioni</a></li>
-      </ul>
-    </nav>
-
-    <!-- Contenuto del gioco -->
-    <div class="game-container">
+    <header>
+      <nav>
+        <ul>
+          <li><a href="#" id="start-nav">Start Game</a></li>
+          <li><a href="#" id="info-nav">Game Info</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
       <div id="game-info">
-        <h2>Caccia al Tesoro dei Colli Piacentini</h2>
-        <p>Scopri la bellezza dei Colli Piacentini attraverso un divertente quiz!</p>
-        <button id="start-btn">Inizia l'Avventura</button>
+        <h1>Treasure Hunt of the Piacenza Hills</h1>
+        <p>Embark on a fun quiz adventure to discover the beauty of the Piacenza Hills.</p>
+        <button id="start-btn">Start Game</button>
       </div>
 
       <div id="game-content" style="display: none;">
-        <div id="status-bar"></div>
-        <h3 id="question-text"></h3>
+        <div id="status-bar">Time: 00:00:00</div>
+        <div id="question-text"></div>
         <div id="options"></div>
-        <button id="hint-btn">Mostra Suggerimento</button>
+        <button id="hint-btn">Show Hint</button>
         <p id="hint" style="display: none;"></p>
-        <p id="answer-feedback" style="font-weight: bold; margin-top: 10px;"></p>
+        <p id="answer-feedback"></p>
       </div>
 
       <div id="game-end" style="display: none;">
-        <h3>Gioco Completato!</h3>
+        <h2>Game Over</h2>
         <p id="final-score"></p>
-        <button id="reset-btn">Ricomincia</button>
+        <button id="reset-btn">Play Again</button>
       </div>
-    </div>
-
+    </main>
     <script src="script.js"></script>
   </body>
 </html>
